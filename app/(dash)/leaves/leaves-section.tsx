@@ -7,6 +7,7 @@ import { LeavesTable } from "./leaves-table";
 import { Query } from "@/lib/graphql/types";
 import { exportToCSV } from "@/lib/utils/export-csv";
 import { format } from "date-fns";
+import { ErrorState } from "@/components/error-state";
 
 export function LeavesSection() {
   const { error, data } = useSuspenseQuery<Query>(GET_EMPLOYEES_ON_LEAVE);
@@ -39,6 +40,7 @@ export function LeavesSection() {
             <Button 
               variant="contained"
               onClick={handleExportCSV}
+              disabled={!!error}
             >
               Export (CSV)
             </Button>
@@ -46,7 +48,8 @@ export function LeavesSection() {
         </Box>
       </Box>
 
-      <LeavesTable data={data?.employeesOnLeave} />
+      {error && <ErrorState title="Unable to load employees on leave" />}
+      {!error && <LeavesTable data={data?.employeesOnLeave} />}
     </Box>
   );
 }

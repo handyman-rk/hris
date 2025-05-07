@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Box,
-  Card,
-  CardContent,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, Grid, Stack, Typography } from "@mui/material";
 import { BarChart } from "@mui/x-charts/BarChart";
 import {
   GroupOutlined,
@@ -32,17 +25,33 @@ function StatCard({
   return (
     <Card>
       <CardContent>
-        <Box display="flex" alignItems="center" mb={2}>
-          <Box color={color} mr={1}>
-            {icon}
-          </Box>
-          <Typography variant="h6" component="div" color="text.secondary">
-            {title}
+        <Stack spacing={1.5}>
+          <Stack spacing={1} alignItems="start">
+            <Box
+              sx={{
+                backgroundColor: `${color}15`,
+                p: 1,
+                borderRadius: 2,
+                alignItems: "center",
+                mr: 2,
+              }}
+              color={color}
+            >
+              {icon}
+            </Box>
+            <Typography
+              variant="body1"
+              component="div"
+              color="text.secondary"
+              sx={{ fontWeight: 500 }}
+            >
+              {title}
+            </Typography>
+          </Stack>
+          <Typography variant="h1" component="div" >
+            {value}
           </Typography>
-        </Box>
-        <Typography variant="h3" component="div" color={color}>
-          {value}
-        </Typography>
+        </Stack>
       </CardContent>
     </Card>
   );
@@ -65,7 +74,7 @@ export function TeamOverview() {
             <StatCard
               title="Total Employees"
               value={teamOverview.totalEmployees}
-              icon={<GroupOutlined fontSize="large" />}
+              icon={<GroupOutlined fontSize="medium" />}
               color="#1976d2"
             />
           </Grid>
@@ -73,7 +82,7 @@ export function TeamOverview() {
             <StatCard
               title="Active Employees"
               value={teamOverview.activeEmployees}
-              icon={<PersonOutlined fontSize="large" />}
+              icon={<PersonOutlined fontSize="medium" />}
               color="#2e7d32"
             />
           </Grid>
@@ -81,7 +90,7 @@ export function TeamOverview() {
             <StatCard
               title="Employees on Leave"
               value={teamOverview.employeesOnLeave}
-              icon={<GolfCourseOutlined fontSize="large" />}
+              icon={<GolfCourseOutlined fontSize="medium" />}
               color="#ed6c02"
             />
           </Grid>
@@ -89,14 +98,30 @@ export function TeamOverview() {
 
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h5" component="div" gutterBottom>
               Department Breakdown
             </Typography>
-            <Box sx={{ width: "100%", height: 400 }}>
+            <Box sx={{ height: 400 }}>
               <BarChart
+                yAxis={[
+                  {
+                    label: "Number of Employees",
+                  },
+                ]}
                 xAxis={[
                   {
                     scaleType: "band",
+                    colorMap: {
+                      type: "ordinal",
+                      colors: [
+                        "#B5D8EB",
+                        "#C7E5C8",
+                        "#E8C1E4",
+                        "#FFE0B2",
+                        "#BBDEFB",
+                        "#D7CCC8",
+                      ],
+                    },
                     data: teamOverview.departmentBreakdown.map(
                       (item) => item.department
                     ),
@@ -107,10 +132,12 @@ export function TeamOverview() {
                     data: teamOverview.departmentBreakdown.map(
                       (item) => item.count
                     ),
-                    color: "#1976d2",
+                    // color: "#1976d2",
                   },
                 ]}
                 height={350}
+                borderRadius={10}
+                barLabel="value"
               />
             </Box>
           </CardContent>

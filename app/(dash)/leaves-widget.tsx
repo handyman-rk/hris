@@ -8,6 +8,7 @@ import { LeavesTable } from "./leaves/leaves-table";
 import { Query } from "@/lib/graphql/types";
 import { exportToCSV } from "@/lib/utils/export-csv";
 import { format } from "date-fns";
+import { ErrorState } from "@/components/error-state";
 
 export function LeavesWidget() {
   const { error, data } = useSuspenseQuery<Query>(GET_EMPLOYEES_ON_LEAVE, {
@@ -18,18 +19,25 @@ export function LeavesWidget() {
     if (!data?.employeesOnLeave) return;
 
     const csvData = {
-      headers: ['Employee Name', 'Department', 'Position', 'Leave Type', 'Start Date', 'End Date'],
-      rows: data.employeesOnLeave.map(leave => [
+      headers: [
+        "Employee Name",
+        "Department",
+        "Position",
+        "Leave Type",
+        "Start Date",
+        "End Date",
+      ],
+      rows: data.employeesOnLeave.map((leave) => [
         leave.name,
         leave.department,
-        leave.position || '',
+        leave.position || "",
         leave.leaveType,
-        format(leave.startDate, 'yyyy-MM-dd'),
-        format(leave.endDate, 'yyyy-MM-dd')
-      ])
+        format(leave.startDate, "yyyy-MM-dd"),
+        format(leave.endDate, "yyyy-MM-dd"),
+      ]),
     };
 
-    exportToCSV(csvData, 'employees_on_leave.csv');
+    exportToCSV(csvData, "employees_on_leave.csv");
   };
 
   if (error) return <p>Error :(</p>;
@@ -43,21 +51,24 @@ export function LeavesWidget() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h2">Employees on Leave</Typography>
+          <Box sx={{ display: "flex", alignItems: "baseline", gap: 2 }}>
+            <Typography variant="h2">Employees on Leave</Typography>
+            <MUILink href="/leaves" component={Link}>
+              <Typography variant="body2">View all</Typography>
+            </MUILink>
+          </Box>
 
-          <MUILink href="/leaves" component={Link}>
-            <Typography>View all</Typography>
-          </MUILink>
-
-          <Button 
-            variant="contained" 
-            size='small'
+          <Button
+            variant="contained"
+            size="small"
             onClick={handleExportCSV}
+            disabled={!!error}
           >
             Export (CSV)
           </Button>
         </Box>
-        <LeavesTable data={data?.employeesOnLeave} />
+        {!!error && <ErrorState title="Unable to load employees on leave" />}
+        {!error && <LeavesTable data={data?.employeesOnLeave} />}
       </Stack>
     </Box>
   );

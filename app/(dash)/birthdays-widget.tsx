@@ -8,6 +8,7 @@ import { BirthdaysTable } from "./birthdays/birthdays-table";
 import { Query } from "@/lib/graphql/types";
 import { exportToCSV } from "@/lib/utils/export-csv";
 import { format } from "date-fns";
+import { ErrorState } from "@/components/error-state";
 
 export function BirthdaysWidget() {
   const { error, data } = useSuspenseQuery<Query>(GET_BIRTHDAYS_THIS_WEEK, {
@@ -18,16 +19,16 @@ export function BirthdaysWidget() {
     if (!data?.birthdaysThisWeek) return;
 
     const csvData = {
-      headers: ['Employee Name', 'Department', 'Position', 'Date of Birth'],
-      rows: data.birthdaysThisWeek.map(employee => [
+      headers: ["Employee Name", "Department", "Position", "Date of Birth"],
+      rows: data.birthdaysThisWeek.map((employee) => [
         employee.name,
         employee.department,
-        employee.position || '',
-        format(employee.dateOfBirth, 'yyyy-MM-dd')
-      ])
+        employee.position || "",
+        format(employee.dateOfBirth, "yyyy-MM-dd"),
+      ]),
     };
 
-    exportToCSV(csvData, 'birthdays_this_week.csv');
+    exportToCSV(csvData, "birthdays_this_week.csv");
   };
 
   if (error) return <p>Error :(</p>;
@@ -42,21 +43,25 @@ export function BirthdaysWidget() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h2">Birthdays this week</Typography>
+          <Box sx={{ display: "flex", alignItems: "baseline", gap: 2 }}>
+            <Typography variant="h2">Birthdays this week</Typography>
 
-          <MUILink href="/birthdays" component={Link}>
-            <Typography>View all</Typography>
-          </MUILink>
-          <Button 
-            variant="contained" 
+            <MUILink href="/birthdays" component={Link}>
+              <Typography variant="body2">View all</Typography>
+            </MUILink>
+          </Box>
+          <Button
+            variant="contained"
             size="small"
             onClick={handleExportCSV}
+            disabled={!!error}
           >
             Export (CSV)
           </Button>
         </Box>
 
-        <BirthdaysTable data={data?.birthdaysThisWeek} />
+        {error && <ErrorState title="Unable to load birthdays" />}
+        {!error && <BirthdaysTable data={data?.birthdaysThisWeek} />}
       </Stack>
     </Box>
   );

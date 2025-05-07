@@ -9,7 +9,7 @@ const theme = createTheme({
   cssVariables: true,
   palette: {
     primary: {
-      main: "#5D4037", // Brown primary color based on the design
+      main: "#457b9d",
       light: "#8B6B61",
       dark: "#321911",
       contrastText: "#FFFFFF",
