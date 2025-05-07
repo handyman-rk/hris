@@ -1,7 +1,6 @@
 import { format } from "date-fns";
 import {
   Typography,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -10,6 +9,9 @@ import {
   TableRow,
   Avatar,
   Box,
+  Card,
+  Skeleton,
+  Stack
 } from "@mui/material";
 
 type BirthDaysTableProps = {
@@ -19,7 +21,7 @@ type BirthDaysTableProps = {
 export function BirthdaysTable({ data = [] }: BirthDaysTableProps) {
   return (
     <Box>
-      <TableContainer component={Paper}>
+      <TableContainer component={Card}>
         <Table>
           <TableHead>
             <TableRow>
@@ -59,6 +61,45 @@ export function BirthdaysTable({ data = [] }: BirthDaysTableProps) {
                 </TableCell>
               </TableRow>
             )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
+}
+
+export function BirthdaysTableSkeleton() {
+  return (
+    <Box>
+      <TableContainer component={Card}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Employee</TableCell>
+              <TableCell>Department</TableCell>
+              <TableCell>Date of birth</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Avatar sx={{ mr: 2 }} />
+                    <Stack spacing={0.5}>
+                      <Skeleton variant="rounded" width={80} />
+                      <Skeleton variant="rounded" width={100} />
+                    </Stack>
+                  </Box>
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="rounded" width={120} />
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="rounded" width={120} />
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

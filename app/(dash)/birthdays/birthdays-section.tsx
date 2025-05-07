@@ -2,13 +2,12 @@
 
 import { useSuspenseQuery } from "@apollo/client";
 import { GET_BIRTHDAYS_THIS_WEEK } from "@/lib/graphql/queries";
-import { Box, Button, Typography, Alert } from "@mui/material";
-import { BirthdaysTable } from "./birthdays-table";
+import { Box, Button, Typography } from "@mui/material";
+import { BirthdaysTable, BirthdaysTableSkeleton } from "./birthdays-table";
 import { Query } from "@/lib/graphql/types";
 import { exportToCSV } from "@/lib/utils/export-csv";
 import { format } from "date-fns";
 import { ErrorState } from "@/components/error-state";
-
 
 export function BirthdaysSection() {
   const { error, data } = useSuspenseQuery<Query>(GET_BIRTHDAYS_THIS_WEEK);
@@ -39,6 +38,20 @@ export function BirthdaysSection() {
       </Box>
       {error && <ErrorState title="Unable to load birthdays" description="Please try again later. If the issue persists, reach out to helpdesk." />}
       {!error && <BirthdaysTable data={data?.birthdaysThisWeek} />}
+    </Box>
+  );
+}
+
+export function BirthdaysSectionSkeleton() {
+  return (
+    <Box component="section">
+      <Box sx={{ mb: 3, display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h1">Birthdays this week</Typography>
+        <Button variant="contained" disabled>
+          Export (CSV)
+        </Button>
+      </Box>
+      <BirthdaysTableSkeleton />
     </Box>
   );
 }

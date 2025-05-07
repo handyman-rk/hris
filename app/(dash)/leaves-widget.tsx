@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSuspenseQuery } from "@apollo/client";
 import { GET_EMPLOYEES_ON_LEAVE } from "@/lib/graphql/queries";
 import { Typography, Box, Stack, Link as MUILink, Button } from "@mui/material";
-import { LeavesTable } from "./leaves/leaves-table";
+import { LeavesTable, LeavesTableSkeleton } from "./leaves/leaves-table";
 import { Query } from "@/lib/graphql/types";
 import { exportToCSV } from "@/lib/utils/export-csv";
 import { format } from "date-fns";
@@ -69,6 +69,29 @@ export function LeavesWidget() {
         </Box>
         {!!error && <ErrorState title="Unable to load employees on leave" />}
         {!error && <LeavesTable data={data?.employeesOnLeave} />}
+      </Stack>
+    </Box>
+  );
+}
+
+export function LeavesWidgetSkeleton() {
+  return (
+    <Box>
+      <Stack gap={3}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h2">Employees on Leave</Typography>
+
+          <Button variant="contained" size="small" disabled>
+            Export (CSV)
+          </Button>
+        </Box>
+        <LeavesTableSkeleton />
       </Stack>
     </Box>
   );

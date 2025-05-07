@@ -4,7 +4,10 @@ import Link from "next/link";
 import { useSuspenseQuery } from "@apollo/client";
 import { GET_BIRTHDAYS_THIS_WEEK } from "@/lib/graphql/queries";
 import { Typography, Box, Stack, Link as MUILink, Button } from "@mui/material";
-import { BirthdaysTable } from "./birthdays/birthdays-table";
+import {
+  BirthdaysTable,
+  BirthdaysTableSkeleton,
+} from "./birthdays/birthdays-table";
 import { Query } from "@/lib/graphql/types";
 import { exportToCSV } from "@/lib/utils/export-csv";
 import { format } from "date-fns";
@@ -62,6 +65,28 @@ export function BirthdaysWidget() {
 
         {error && <ErrorState title="Unable to load birthdays" />}
         {!error && <BirthdaysTable data={data?.birthdaysThisWeek} />}
+      </Stack>
+    </Box>
+  );
+}
+
+export function BirthdaysWidgetSkeleton() {
+  return (
+    <Box>
+      <Stack gap={3}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h2">Birthdays this week</Typography>
+          <Button variant="contained" size="small" disabled>
+            Export (CSV)
+          </Button>
+        </Box>
+        <BirthdaysTableSkeleton />
       </Stack>
     </Box>
   );

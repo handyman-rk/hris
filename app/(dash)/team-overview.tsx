@@ -1,6 +1,14 @@
 "use client";
 
-import { Box, Card, CardContent, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { BarChart } from "@mui/x-charts/BarChart";
 import {
   GroupOutlined,
@@ -10,52 +18,7 @@ import {
 import { useSuspenseQuery } from "@apollo/client";
 import { GET_TEAM_OVERVIEW } from "@/lib/graphql/queries";
 import { Query } from "@/lib/graphql/types";
-
-function StatCard({
-  title,
-  value,
-  icon,
-  color,
-}: {
-  title: string;
-  value: number;
-  icon: React.ReactNode;
-  color: string;
-}) {
-  return (
-    <Card>
-      <CardContent>
-        <Stack spacing={1.5}>
-          <Stack spacing={1} alignItems="start">
-            <Box
-              sx={{
-                backgroundColor: `${color}15`,
-                p: 1,
-                borderRadius: 2,
-                alignItems: "center",
-                mr: 2,
-              }}
-              color={color}
-            >
-              {icon}
-            </Box>
-            <Typography
-              variant="body1"
-              component="div"
-              color="text.secondary"
-              sx={{ fontWeight: 500 }}
-            >
-              {title}
-            </Typography>
-          </Stack>
-          <Typography variant="h1" component="div" >
-            {value}
-          </Typography>
-        </Stack>
-      </CardContent>
-    </Card>
-  );
-}
+import { StatCard, StatCardSkeleton } from "@/components/stat-card";
 
 export function TeamOverview() {
   const { data } = useSuspenseQuery<Query>(GET_TEAM_OVERVIEW);
@@ -139,6 +102,47 @@ export function TeamOverview() {
                 borderRadius={10}
                 barLabel="value"
               />
+            </Box>
+          </CardContent>
+        </Card>
+      </Stack>
+    </Box>
+  );
+}
+
+export function TeamOverviewSkeleton() {
+  return (
+    <Box>
+      <Typography variant="h2" sx={{ mb: 3 }}>
+        Team Overview
+      </Typography>
+
+      <Stack spacing={4}>
+        <Grid container spacing={3}>
+          <Grid size={4}>
+            <StatCardSkeleton />
+          </Grid>
+          <Grid size={4}>
+            <StatCardSkeleton />
+          </Grid>
+          <Grid size={4}>
+            <StatCardSkeleton />
+          </Grid>
+        </Grid>
+
+        <Card>
+          <CardContent>
+            <Box sx={{ height: 400, p: 6 }}>
+              <Stack spacing={3} direction="row" justifyContent="space-between">
+                <Skeleton variant="rounded" width={72} height={320} sx={{translate: '0 20px'}} />
+                <Skeleton variant="rounded" width={72} height={280} sx={{translate: '0 60px'}} />
+                <Skeleton variant="rounded" width={72} height={320} sx={{translate: '0 20px'}} />
+                <Skeleton variant="rounded" width={72} height={280} sx={{translate: '0 60px'}} />
+                <Skeleton variant="rounded" width={72} height={320} sx={{translate: '0 20px'}} />
+                <Skeleton variant="rounded" width={72} height={280} sx={{translate: '0 60px'}} />
+                <Skeleton variant="rounded" width={72} height={320} sx={{translate: '0 20px'}} />
+                <Skeleton variant="rounded" width={72} height={280} sx={{translate: '0 60px'}} />
+              </Stack>
             </Box>
           </CardContent>
         </Card>

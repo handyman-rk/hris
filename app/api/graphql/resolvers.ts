@@ -8,12 +8,12 @@ export const resolvers = {
     employees: () => generatedData.employees,
 
     // Get all employees on leave today
-    employeesOnLeave: (limit: number) =>
-      faker.helpers.arrayElements(generatedData.employeesOnLeave, limit),
+    employeesOnLeave: (_:unknown, args: { limit: number }) =>
+      faker.helpers.arrayElements(generatedData.employeesOnLeave, args.limit),
 
     // Get employees with birthdays this week
-    birthdaysThisWeek: (limit: number) =>
-      faker.helpers.arrayElements(generatedData.birthdaysThisWeek, limit),
+    birthdaysThisWeek: (_:unknown, args: { limit: number }) =>
+      faker.helpers.arrayElements(generatedData.birthdaysThisWeek, args.limit),
 
     // Get team overview statistics
     teamOverview: () => generatedData.teamOverview,

@@ -1,7 +1,6 @@
 import { format, differenceInDays } from "date-fns";
 import {
   Typography,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +10,9 @@ import {
   Avatar,
   Box,
   Chip,
+  Card,
+  Skeleton,
+  Stack,
 } from "@mui/material";
 
 const getDaysRemaining = (endDate: string) => {
@@ -26,7 +28,7 @@ type LeavesTableProps = {
 export function LeavesTable({ data = [] }: LeavesTableProps) {
   return (
     <Box>
-      <TableContainer component={Paper}>
+      <TableContainer component={Card}>
         <Table>
           <TableHead>
             <TableRow>
@@ -93,6 +95,57 @@ export function LeavesTable({ data = [] }: LeavesTableProps) {
                 </TableCell>
               </TableRow>
             )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
+}
+
+export function LeavesTableSkeleton() {
+  return (
+    <Box>
+      <TableContainer component={Card}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Employee</TableCell>
+              <TableCell>Department</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>Start date</TableCell>
+              <TableCell>End date</TableCell>
+              <TableCell>Days remaining</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Avatar sx={{ mr: 2 }} />
+                    <Stack spacing={0.5}>
+                      <Skeleton variant="rounded" width={80} />
+                      <Skeleton variant="rounded" width={100} />
+                    </Stack>
+                  </Box>
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="rounded" width={120} />
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="rounded" width={120} />
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="rounded" width={120} />
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="rounded" width={120} />
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="rounded" width={120} />
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

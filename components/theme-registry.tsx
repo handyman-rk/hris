@@ -53,18 +53,11 @@ const theme = createTheme({
     },
   },
   components: {
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "#5D4037", // Brown color from the design
-        },
-      },
-    },
     MuiCard: {
       styleOverrides: {
         root: {
           borderRadius: 8,
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)",
         },
       },
     },

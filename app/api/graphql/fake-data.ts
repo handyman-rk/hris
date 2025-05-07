@@ -1,9 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { addDays, addYears } from "date-fns";
 
-// Set seed for consistent data generation
-faker.seed(123);
-
 const departments = {
   Engineering: [
     "Software Engineer",
