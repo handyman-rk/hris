@@ -1,70 +1,22 @@
 import { gql } from "graphql-tag";
 
 export const typeDefs = gql`
-  type Address {
-    street: String
-    city: String
-    state: String
-    zipCode: String
-    country: String
-  }
-
-  type EmergencyContact {
-    name: String
-    relationship: String
-    phone: String
-  }
-
-  type BankDetails {
-    accountName: String
-    accountNumber: String
-    routingNumber: String
-  }
-
-  type Document {
-    id: ID!
-    name: String
-    uploadDate: String
-    fileType: String
-  }
-
-  type PerformanceReview {
-    id: ID!
-    date: String
-    rating: Int
-    reviewedBy: String
-    comments: String
-  }
-
   type Employee {
     id: ID!
     name: String!
-    firstName: String
-    lastName: String
     gender: String
     department: String!
     position: String
     email: String
-    phone: String
     dateOfBirth: String
     dateJoined: String
-    salary: Float
     status: String
     avatar: String
-    address: Address
-    emergencyContact: EmergencyContact
-    bankDetails: BankDetails
-    documents: [Document]
-    performanceReviews: [PerformanceReview]
-    leaveType: String
-    startDate: String
-    endDate: String
   }
 
   type Leave {
     id: ID!
     employeeId: ID!
-    employee: Employee
     leaveType: String!
     startDate: String!
     endDate: String!
@@ -74,56 +26,19 @@ export const typeDefs = gql`
     approvedOn: String
   }
 
-  type Attendance {
+  type EmployeeOnLeave {
     id: ID!
-    employeeId: ID!
-    employee: Employee
-    date: String!
-    status: String!
-    clockIn: String
-    clockOut: String
-  }
-
-  type Announcement {
-    id: ID!
-    title: String!
-    type: String!
-    content: String!
-    date: String!
-    author: String!
+    name: String!
     department: String!
-    important: Boolean!
-  }
-
-  type Event {
-    id: ID!
-    title: String!
-    type: String!
-    description: String!
+    position: String
+    avatar: String
+    leaveType: String!
     startDate: String!
     endDate: String!
-    location: String!
-    organizer: String!
-    department: String!
   }
 
   type DepartmentBreakdown {
     department: String!
-    count: Int!
-  }
-
-  type GenderDiversity {
-    gender: String!
-    count: Int!
-  }
-
-  type TenureData {
-    range: String!
-    count: Int!
-  }
-
-  type SalaryData {
-    range: String!
     count: Int!
   }
 
@@ -132,44 +47,12 @@ export const typeDefs = gql`
     activeEmployees: Int!
     employeesOnLeave: Int!
     departmentBreakdown: [DepartmentBreakdown!]!
-    genderDiversity: [GenderDiversity!]!
-    tenureData: [TenureData!]!
-    salaryData: [SalaryData!]!
-  }
-
-  type AttendanceSummary {
-    present: Int!
-    absent: Int!
-    onLeave: Int!
-    date: String!
   }
 
   type Query {
-    hello: String!
-    employeesOnLeave: [Employee!]!
-    birthdaysThisWeek: [Employee!]!
+    employees: [Employee!]!
+    employeesOnLeave(limit: Int = 100): [EmployeeOnLeave!]!
+    birthdaysThisWeek(limit: Int = 100): [Employee!]!
     teamOverview: TeamOverview!
-    employee(id: ID!): Employee
-    employees(
-      department: String
-      status: String
-      search: String
-      offset: Int
-      limit: Int
-    ): [Employee!]!
-    employeeCount(department: String, status: String, search: String): Int!
-    leaves(status: String, upcoming: Boolean): [Leave!]!
-    leavesByEmployee(employeeId: ID!): [Leave!]!
-    attendance(date: String): [Attendance!]!
-    attendanceByEmployee(
-      employeeId: ID!
-      startDate: String
-      endDate: String
-    ): [Attendance!]!
-    attendanceSummary(startDate: String, endDate: String): [AttendanceSummary!]!
-    announcements(limit: Int): [Announcement!]!
-    events(upcoming: Boolean, limit: Int): [Event!]!
-    departments: [String!]!
-    positions(department: String): [String!]!
   }
 `;
