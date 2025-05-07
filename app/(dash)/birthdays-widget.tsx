@@ -55,7 +55,6 @@ export function BirthdaysWidget() {
           </Box>
           <Button
             variant="contained"
-            size="small"
             onClick={handleExportCSV}
             disabled={!!error}
           >
