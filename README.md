@@ -1,8 +1,18 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
+Install dependencies:
+```bash
+npm install --legacy-peer-deps
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
@@ -23,12 +33,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 │   │   └── graphql       GraphQL API endpoint
 │   ├── (apollo)          Apollo GraphQL Sandbox
 │   ├── (dash)            Dashboard
-│   │   └── people        People page
-│   │   └── time-off      Time off page
 │   │   └── birthdays     Birthdays page
-
+│   │   └── leaves        Leaes page
 ├── components  Customized components
-│   
+│── lib          Utility functions
 ```
 
 ## GraphQL Sandbox

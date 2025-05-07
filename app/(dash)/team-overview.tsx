@@ -19,11 +19,21 @@ import { useSuspenseQuery } from "@apollo/client";
 import { GET_TEAM_OVERVIEW } from "@/lib/graphql/queries";
 import { Query } from "@/lib/graphql/types";
 import { StatCard, StatCardSkeleton } from "@/components/stat-card";
+import { ErrorState } from "@/components/error-state";
 
 export function TeamOverview() {
-  const { data } = useSuspenseQuery<Query>(GET_TEAM_OVERVIEW);
+  const { error, data } = useSuspenseQuery<Query>(GET_TEAM_OVERVIEW);
 
   const { teamOverview } = data;
+
+  if (error) {
+    return (
+      <Stack spacing={3}>
+        <Typography variant="h2">Team Overview</Typography>
+        <ErrorState title="Something went wrong" />
+      </Stack>
+    );
+  }
 
   return (
     <Box>
@@ -95,7 +105,6 @@ export function TeamOverview() {
                     data: teamOverview.departmentBreakdown.map(
                       (item) => item.count
                     ),
-                    // color: "#1976d2",
                   },
                 ]}
                 height={350}
@@ -134,14 +143,54 @@ export function TeamOverviewSkeleton() {
           <CardContent>
             <Box sx={{ height: 400, p: 6 }}>
               <Stack spacing={3} direction="row" justifyContent="space-between">
-                <Skeleton variant="rounded" width={72} height={320} sx={{translate: '0 20px'}} />
-                <Skeleton variant="rounded" width={72} height={280} sx={{translate: '0 60px'}} />
-                <Skeleton variant="rounded" width={72} height={320} sx={{translate: '0 20px'}} />
-                <Skeleton variant="rounded" width={72} height={280} sx={{translate: '0 60px'}} />
-                <Skeleton variant="rounded" width={72} height={320} sx={{translate: '0 20px'}} />
-                <Skeleton variant="rounded" width={72} height={280} sx={{translate: '0 60px'}} />
-                <Skeleton variant="rounded" width={72} height={320} sx={{translate: '0 20px'}} />
-                <Skeleton variant="rounded" width={72} height={280} sx={{translate: '0 60px'}} />
+                <Skeleton
+                  variant="rounded"
+                  width={72}
+                  height={320}
+                  sx={{ translate: "0 20px" }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={72}
+                  height={280}
+                  sx={{ translate: "0 60px" }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={72}
+                  height={320}
+                  sx={{ translate: "0 20px" }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={72}
+                  height={280}
+                  sx={{ translate: "0 60px" }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={72}
+                  height={320}
+                  sx={{ translate: "0 20px" }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={72}
+                  height={280}
+                  sx={{ translate: "0 60px" }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={72}
+                  height={320}
+                  sx={{ translate: "0 20px" }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={72}
+                  height={280}
+                  sx={{ translate: "0 60px" }}
+                />
               </Stack>
             </Box>
           </CardContent>

@@ -16,36 +16,40 @@ export function LeavesSection() {
     if (!data?.employeesOnLeave) return;
 
     const csvData = {
-      headers: ['Employee Name', 'Department', 'Position', 'Leave Type', 'Start Date', 'End Date'],
-      rows: data.employeesOnLeave.map(leave => [
+      headers: [
+        "Employee Name",
+        "Department",
+        "Position",
+        "Leave Type",
+        "Start Date",
+        "End Date",
+      ],
+      rows: data.employeesOnLeave.map((leave) => [
         leave.name,
         leave.department,
-        leave.position || '',
+        leave.position || "",
         leave.leaveType,
-        format(leave.startDate, 'yyyy-MM-dd'),
-        format(leave.endDate, 'yyyy-MM-dd')
-      ])
+        format(leave.startDate, "yyyy-MM-dd"),
+        format(leave.endDate, "yyyy-MM-dd"),
+      ]),
     };
 
-    exportToCSV(csvData, 'all_employees_on_leave.csv');
+    exportToCSV(csvData, "all_employees_on_leave.csv");
   };
 
   return (
     <Box component="section">
-      <Box sx={{mb: 3, display: 'flex', justifyContent: 'space-between', gap: 2}}>
+      <Box
+        sx={{ mb: 3, display: "flex", justifyContent: "space-between", gap: 2 }}
+      >
         <Typography variant="h1">Employees on Leave</Typography>
-        <Box>
-          <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
-            <Typography>Department</Typography>
-            <Button 
-              variant="contained"
-              onClick={handleExportCSV}
-              disabled={!!error}
-            >
-              Export (CSV)
-            </Button>
-          </Box>
-        </Box>
+        <Button
+          variant="contained"
+          onClick={handleExportCSV}
+          disabled={!!error}
+        >
+          Export (CSV)
+        </Button>
       </Box>
 
       {error && <ErrorState title="Unable to load employees on leave" />}
@@ -57,15 +61,14 @@ export function LeavesSection() {
 export function LeavesSectionSkeleton() {
   return (
     <Box component="section">
-      <Box sx={{mb: 3, display: 'flex', justifyContent: 'space-between', gap: 2}}>
+      <Box
+        sx={{ mb: 3, display: "flex", justifyContent: "space-between", gap: 2 }}
+      >
         <Typography variant="h1">Employees on Leave</Typography>
         <Box>
-          <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Typography>Department</Typography>
-            <Button 
-              variant="contained"
-              disabled
-            >
+            <Button variant="contained" disabled>
               Export (CSV)
             </Button>
           </Box>
