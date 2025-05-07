@@ -6,12 +6,30 @@ import { GET_BIRTHDAYS_THIS_WEEK } from "@/lib/graphql/queries";
 import { Typography, Box, Stack, Link as MUILink, Button } from "@mui/material";
 import { BirthdaysTable } from "./birthdays/birthdays-table";
 import { Query } from "@/lib/graphql/types";
+import { exportToCSV } from "@/lib/utils/export-csv";
+import { format } from "date-fns";
 
 export function BirthdaysWidget() {
   const { error, data } = useSuspenseQuery<Query>(GET_BIRTHDAYS_THIS_WEEK, {
     variables: { limit: 6 },
   });
-  //   if (loading) return <p>Loading...</p>;
+
+  const handleExportCSV = () => {
+    if (!data?.birthdaysThisWeek) return;
+
+    const csvData = {
+      headers: ['Employee Name', 'Department', 'Position', 'Date of Birth'],
+      rows: data.birthdaysThisWeek.map(employee => [
+        employee.name,
+        employee.department,
+        employee.position || '',
+        format(employee.dateOfBirth, 'yyyy-MM-dd')
+      ])
+    };
+
+    exportToCSV(csvData, 'birthdays_this_week.csv');
+  };
+
   if (error) return <p>Error :(</p>;
 
   return (
@@ -29,7 +47,13 @@ export function BirthdaysWidget() {
           <MUILink href="/birthdays" component={Link}>
             <Typography>View all</Typography>
           </MUILink>
-          <Button variant="contained" size="small">Export (CSV)</Button>
+          <Button 
+            variant="contained" 
+            size="small"
+            onClick={handleExportCSV}
+          >
+            Export (CSV)
+          </Button>
         </Box>
 
         <BirthdaysTable data={data?.birthdaysThisWeek} />
