@@ -10,15 +10,11 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#457b9d",
-      light: "#8B6B61",
-      dark: "#321911",
-      contrastText: "#FFFFFF",
+      light: "#6b98b7",
     },
     secondary: {
-      main: "#607D8B", // Blue-grey secondary color
+      main: "#607D8B",
       light: "#8EACBB",
-      dark: "#34515E",
-      contrastText: "#FFFFFF",
     },
     background: {
       default: "#F5F5F5",
@@ -66,6 +62,25 @@ const theme = createTheme({
         root: {
           textTransform: "none",
           borderRadius: 4,
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderColor: "#e0e0e0",
+        },
+      },
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          borderColor: "#e0e0e0",
+
+          "& .MuiTableCell-root": {
+            color: "#666",
+            fontWeight: 600,
+          },
         },
       },
     },
